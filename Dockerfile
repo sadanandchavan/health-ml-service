@@ -17,4 +17,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 EXPOSE 5000
 
 # Start FastAPI server
-CMD ["uvicorn", "ml_service:app", "--host", "0.0.0.0", "--port", "5000"]
+#CMD ["uvicorn", "ml_service:app", "--host", "0.0.0.0", "--port", "5000"]
+CMD ["sh", "-c", "uvicorn ml_service:app --host 0.0.0.0 --port $PORT"]
+
