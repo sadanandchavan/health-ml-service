@@ -7,6 +7,7 @@ import joblib
 import logging
 import os
 
+
 # --- Logging setup ---
 os.makedirs("logs", exist_ok=True)
 logging.basicConfig(
@@ -57,9 +58,9 @@ def log_request(endpoint: str, input_data, output_data):
     logging.info(f"Endpoint: {endpoint}, Input: {input_data}, Output: {output_data}")
 
 # --- Endpoints ---
-@app.get("/")
-def root():
-    return {"message": "ML Service is running!"}
+#@app.get("/")
+#def root():
+#    return {"message": "ML Service is running!"}
 
 @app.post("/predict", summary="Predict risk for a single reading", response_description="Risk score and category")
 def predict(reading: Reading):
@@ -99,3 +100,16 @@ def generate_alert(reading: Reading):
     output = {"risk_score": float(score), "alert": alert}
     log_request("/alert", reading.dict(), output)
     return output
+
+
+
+from fastapi.staticfiles import StaticFiles
+# Serve the static folder
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
+# Optional: root redirects to HTML page
+from fastapi.responses import RedirectResponse
+
+@app.get("/", include_in_schema=False)
+def root():
+    return RedirectResponse(url="/static/index.html")

@@ -8,6 +8,7 @@ WORKDIR /app
 COPY requirements.txt .
 COPY ml_model.pkl .
 COPY ml_service.py .
+COPY static/ ./static/
 
 # Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
